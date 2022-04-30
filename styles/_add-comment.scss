@@ -1,0 +1,51 @@
+.add-comment {
+  display: grid;
+  grid-template:
+    "text text" auto
+    "avatar cta" auto / 1fr 1fr;
+  align-items: center;
+  background-color: $white;
+  width: 100%;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  @include for-tablet-portrait-up {
+    grid-template: "avatar text cta" auto / 1fr 10fr 3fr;
+    align-items:start;
+  }
+
+  textarea {
+    width: 100%;
+    height: 6rem;
+    border-radius: 0.5rem;
+    resize: none;
+    margin-bottom: 1rem;
+    color: $pale-red;
+    padding: 16px 28px;
+    grid-area: text;
+
+    &[placeholder] {
+      color: $pale-red;
+    }
+  }
+
+  &__avatar {
+    grid-area: avatar;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
+  }
+  &__cta {
+    grid-area: cta;
+    justify-self: end;
+    width: 6.5625rem;
+    height: 3rem;
+    background-color: $moderate-blue;
+    color: $white;
+    border-radius: 10px;
+  }
+}
