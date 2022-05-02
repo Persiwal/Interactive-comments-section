@@ -1,7 +1,4 @@
 const commentsList = document.querySelector(".comments-list");
-const minusButton = document.querySelector(".comments-list__minus");
-const score = document.querySelector(".comments-list__score");
-const plusButton = document.querySelector(".comments-list__plus");
 const addCommentAvatar = document.querySelector(".add-comment__avatar");
 const addCommentText = document.querySelector(".add-comment__text");
 const addCommentButton = document.querySelector(".add-comment__cta");
@@ -49,21 +46,25 @@ const displayComments = async (addedCommentsArray) => {
           <p class="comments-list__content">
             ${comment.content}
           </p>
-          <div class="comments-list__score">
+          <div class="comments-list__score ">
             <img
               src="./images/icon-minus.svg"
               alt=""
               class="comments-list__minus"
+              data-id="${comment.id}"
             />
-            <p class="comments-list__score-number">${comment.score}</p>
+            <p class="comments-list__score-number" data-id="${comment.id}">${
+      comment.score
+    }</p>
             <img
               src="./images/icon-plus.svg"
               alt=""
               class="comments-list__plus"
+              data-id="${comment.id}"
             />
           </div>
           <div class="comments-list__actions">
-          <div class="reply-button" id="${comment.id}">
+          <div class="reply-button" data-id="${comment.id}">
             <img src="./images/icon-reply.svg" alt="reply icon" />
             <span>Reply</span>
             </div>
@@ -95,17 +96,21 @@ const displayComments = async (addedCommentsArray) => {
             <img
               src="./images/icon-minus.svg"
               alt=""
-              class="comments-list__minus"
+              class="comments-list__minus "
+              data-id="${reply.id}"
             />
-            <p class="comments-list__score-number">${reply.score}</p>
+            <p class="comments-list__score-number" data-id="${reply.id}">${
+          reply.score
+        }</p>
             <img
               src="./images/icon-plus.svg"
               alt=""
               class="comments-list__plus"
+              data-id="${reply.id}"
             />
           </div>
           <div class="comments-list__actions">
-          <div class="reply-button" id="${reply.id}">
+          <div class="reply-button" data-id="${reply.id}">
             <img src="./images/icon-reply.svg" alt="reply icon" />
             <span>Reply</span>
             </div>
@@ -113,6 +118,36 @@ const displayComments = async (addedCommentsArray) => {
         </li>`;
       });
     }
+    // add listeners to score buttons
+    const minusButtons = document.querySelectorAll(".comments-list__minus");
+    const scores = document.querySelectorAll(".comments-list__score-number");
+    const plusButtons = document.querySelectorAll(".comments-list__plus");
+
+    minusButtons.forEach((button) =>
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        scores.forEach((score) => {
+          if (event.target.dataset.id == score.dataset.id) {
+            score.innerHTML--;
+          } else {
+            return;
+          }
+        });
+      })
+    );
+
+    plusButtons.forEach((button) =>
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        scores.forEach((score) => {
+          if (event.target.dataset.id == score.dataset.id) {
+            score.innerHTML++;
+          } else {
+            return;
+          }
+        });
+      })
+    );
   });
 
   // set current user avatar on add-comment section
