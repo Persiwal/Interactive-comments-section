@@ -1,5 +1,6 @@
 .add-comment {
   display: grid;
+  position: relative;
   grid-template:
     "text text" auto
     "avatar cta" auto / 1fr 1fr;
@@ -12,7 +13,7 @@
 
   @include for-tablet-portrait-up {
     grid-template: "avatar text cta" auto / 1fr 10fr 3fr;
-    align-items:start;
+    align-items: start;
   }
 
   textarea {
@@ -37,7 +38,6 @@
       width: 32px;
       height: 32px;
     }
-
   }
   &__cta {
     grid-area: cta;
@@ -47,5 +47,13 @@
     background-color: $moderate-blue;
     color: $white;
     border-radius: 10px;
+  }
+
+  &__invalid-input {
+    position: absolute;
+    top: 90px;
+    left: 25%;
+    color: red;
+    font-size: 0.8rem;
   }
 }

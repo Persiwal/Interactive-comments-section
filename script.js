@@ -2,6 +2,8 @@ const commentsList = document.querySelector(".comments-list");
 const addCommentAvatar = document.querySelector(".add-comment__avatar");
 const addCommentText = document.querySelector(".add-comment__text");
 const addCommentButton = document.querySelector(".add-comment__cta");
+const addCommentSection = document.querySelector(".add-comment");
+const invalidInput = document.querySelector(".add-comment__invalid-input");
 
 let addedCommentsArray = [];
 
@@ -161,24 +163,32 @@ const displayComments = async (addedCommentsArray) => {
             />`;
 };
 
+addCommentText.addEventListener("keyup", () => {
+  invalidInput.innerText = "";
+});
+
 addCommentButton.addEventListener("click", async (e) => {
   e.preventDefault();
-  const data = await fetchComments();
-  const { currentUser } = data;
-  console.log(currentUser);
-  const newComment = {
-    id: Math.random(),
-    content: addCommentText.value,
-    createdAt: "5 months ago",
-    replies: [],
-    score: 0,
-    user: {
-      image: { png: currentUser.image.png },
-      username: currentUser.username,
-    },
-  };
-  addedCommentsArray.push(newComment);
-  displayComments(addedCommentsArray);
+  if (addCommentText.value === "") {
+    invalidInput.innerText = "You can't post empty comment!";
+  } else {
+    const data = await fetchComments();
+    const { currentUser } = data;
+    console.log(currentUser);
+    const newComment = {
+      id: Math.random(),
+      content: addCommentText.value,
+      createdAt: "5 months ago",
+      replies: [],
+      score: 0,
+      user: {
+        image: { png: currentUser.image.png },
+        username: currentUser.username,
+      },
+    };
+    addedCommentsArray.push(newComment);
+    displayComments(addedCommentsArray);
+  }
 });
 
 displayComments(addedCommentsArray);
