@@ -48,8 +48,12 @@ const displayComments = async (addedCommentsArray) => {
           <p class="comments-list__content">
             ${comment.content}
           </p>
-          <div class="comments-list__score ">
-            <div class="comments-list__minus">
+          <div class="comments-list__score ${
+            comment.user.username === currentUser.username ? "disable" : ""
+          }">
+            <div class="comments-list__minus ${
+              comment.user.username === currentUser.username ? "disable" : ""
+            }">
              <img
               src="./images/icon-minus.svg"
               alt=""
@@ -59,7 +63,9 @@ const displayComments = async (addedCommentsArray) => {
             <p class="comments-list__score-number" data-id="${comment.id}">${
       comment.score
     }</p>
-    <div class="comments-list__plus">
+    <div class="comments-list__plus ${
+      comment.user.username === currentUser.username ? "disable" : ""
+    }">
             <img
               src="./images/icon-plus.svg"
               alt=""
@@ -96,8 +102,12 @@ const displayComments = async (addedCommentsArray) => {
           <p class="comments-list__content">
             ${reply.content}
           </p>
-          <div class="comments-list__score ">
-            <div class="comments-list__minus">
+          <div class="comments-list__score  ${
+            reply.user.username === currentUser.username ? "disable" : ""
+          }">
+            <div class="comments-list__minus ${
+              reply.user.username === currentUser.username ? "disable" : ""
+            }">
              <img
               src="./images/icon-minus.svg"
               alt=""
@@ -107,7 +117,9 @@ const displayComments = async (addedCommentsArray) => {
             <p class="comments-list__score-number" data-id="${reply.id}">${
           reply.score
         }</p>
-    <div class="comments-list__plus">
+    <div class="comments-list__plus ${
+      reply.user.username === currentUser.username ? "disable" : ""
+    }">
             <img
               src="./images/icon-plus.svg"
               alt=""
@@ -133,7 +145,10 @@ const displayComments = async (addedCommentsArray) => {
       button.addEventListener("click", (event) => {
         event.preventDefault();
         scores.forEach((score) => {
-          if (event.target.dataset.id == score.dataset.id) {
+          if (
+            event.target.dataset.id == score.dataset.id &&
+            !score.classList.contains("disable")
+          ) {
             score.innerHTML--;
           } else {
             return;

@@ -1,25 +1,29 @@
 * {
-    box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Rubik', sans-serif;
-    margin:0;
-    background-color: $very-light-gray;
+  font-family: "Rubik", sans-serif;
+  margin: 0;
+  background-color: $very-light-gray;
 }
 
 ul {
-    list-style-type: none;
-    padding:0;
-    margin:0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .container {
-    margin:auto;
-    padding:2rem 1rem;
-    max-width: 38rem;
+  margin: auto;
+  padding: 2rem 1rem;
+  max-width: 38rem;
 }
 
 strong {
-    font-weight:$bold;
+  font-weight: $bold;
+}
+
+.disable {
+  cursor: not-allowed !important;
 }
