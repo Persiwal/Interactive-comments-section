@@ -47,21 +47,23 @@ const displayComments = async (addedCommentsArray) => {
             ${comment.content}
           </p>
           <div class="comments-list__score ">
-            <img
+            <div class="comments-list__minus">
+             <img
               src="./images/icon-minus.svg"
               alt=""
-              class="comments-list__minus"
               data-id="${comment.id}"
             />
+            </div>
             <p class="comments-list__score-number" data-id="${comment.id}">${
       comment.score
     }</p>
+    <div class="comments-list__plus">
             <img
               src="./images/icon-plus.svg"
               alt=""
-              class="comments-list__plus"
               data-id="${comment.id}"
             />
+            </div>
           </div>
           <div class="comments-list__actions">
           <div class="reply-button" data-id="${comment.id}">
@@ -92,23 +94,25 @@ const displayComments = async (addedCommentsArray) => {
           <p class="comments-list__content">
             ${reply.content}
           </p>
-          <div class="comments-list__score">
-            <img
+          <div class="comments-list__score ">
+            <div class="comments-list__minus">
+             <img
               src="./images/icon-minus.svg"
               alt=""
-              class="comments-list__minus "
               data-id="${reply.id}"
             />
+            </div>
             <p class="comments-list__score-number" data-id="${reply.id}">${
           reply.score
         }</p>
+    <div class="comments-list__plus">
             <img
               src="./images/icon-plus.svg"
               alt=""
-              class="comments-list__plus"
               data-id="${reply.id}"
             />
-          </div>
+            </div>
+            </div>
           <div class="comments-list__actions">
           <div class="reply-button" data-id="${reply.id}">
             <img src="./images/icon-reply.svg" alt="reply icon" />
