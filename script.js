@@ -178,13 +178,16 @@ const displayComments = async (addedCommentsArray) => {
             />`;
 };
 
+//clear error message when typing
 addCommentText.addEventListener("keyup", () => {
   invalidInput.innerText = "";
 });
 
+// adding comment logic
 addCommentButton.addEventListener("click", async (e) => {
   e.preventDefault();
   if (addCommentText.value === "") {
+    //show error when input is empty
     invalidInput.innerText = "You can't post empty comment!";
   } else {
     const data = await fetchComments();
