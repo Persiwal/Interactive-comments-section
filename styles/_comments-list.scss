@@ -16,7 +16,7 @@
     @include for-tablet-portrait-up {
       grid-template:
         "score avatar username createdAt reply" auto
-        "score content content content content" auto / 1fr 1fr 2fr 3fr 1fr;
+        "score content content content content" auto / 1fr 1fr 2fr 3fr 3fr;
     }
 
     &.replying {
@@ -83,6 +83,11 @@
     font-weight: $medium;
     gap: 0.5625rem;
     grid-area: reply;
+
+    .delete-button {
+      color: #ed6368;
+      margin-left: 1.25rem;
+    }
 
     &:hover {
       cursor: pointer;
