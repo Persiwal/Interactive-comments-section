@@ -26,4 +26,8 @@ strong {
 
 .disable {
   cursor: not-allowed !important;
+
+  @include for-phone-only {
+    pointer-events: none;
+  }
 }
