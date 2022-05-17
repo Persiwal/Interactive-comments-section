@@ -6,6 +6,15 @@ const addCommentText = document.querySelector(".add-comment__text");
 const addCommentButton = document.querySelector(".add-comment__cta");
 const addCommentSection = document.querySelector(".add-comment");
 const invalidInput = document.querySelector(".add-comment__invalid-input");
+const body = document.querySelector("body");
+const overlay = document.querySelector(".overlay");
+const modal = document.querySelector(".modal");
+const modalCancel = document.querySelector(".modal__cancel");
+const modalDelete = document.querySelector(".modal__delete");
+
+// modal.style = "display:block;";
+// overlay.style = "display:block;";
+// body.style = "overflow:hidden";
 
 let comments = [...data.comments];
 let currentUser = { ...data.currentUser };
@@ -208,22 +217,43 @@ const displayComments = () => {
 
   deleteButtons.forEach((button) => {
     let commentIndex = 0;
+
     button.addEventListener("click", (event) => {
+      //prevent page from refreshing
       event.preventDefault();
-      comments.forEach((comment) => {
-        if (event.target.dataset.id == comment.id) {
-          commentIndex = comments.indexOf(comment);
-          comments.splice(commentIndex, 1);
-          displayComments();
-        }
-        comment.replies.forEach((reply) => {
-          if (event.target.dataset.id == reply.id) {
-            commentIndex = comment.replies.indexOf(reply);
-            comment.replies.splice(commentIndex, 1);
-            console.log(comments.replies);
+
+      //show overlay and modal
+      modal.style = "display:block;";
+      overlay.style = "display:block;";
+      body.style = "overflow:hidden";
+
+      modalCancel.addEventListener("click", () => {
+        //close modal
+        modal.style = "display:none;";
+        overlay.style = "display:none;";
+        body.style = "overflow:default";
+      });
+
+      modalDelete.addEventListener("click", () => {
+        comments.forEach((comment) => {
+          if (event.target.dataset.id == comment.id) {
+            commentIndex = comments.indexOf(comment);
+            comments.splice(commentIndex, 1);
             displayComments();
           }
+          comment.replies.forEach((reply) => {
+            if (event.target.dataset.id == reply.id) {
+              commentIndex = comment.replies.indexOf(reply);
+              comment.replies.splice(commentIndex, 1);
+              console.log(comments.replies);
+              displayComments();
+            }
+          });
         });
+        //close modal
+        modal.style = "display:none;";
+        overlay.style = "display:none;";
+        body.style = "overflow:default";
       });
     });
   });

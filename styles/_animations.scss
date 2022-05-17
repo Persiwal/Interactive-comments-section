@@ -1,4 +1,4 @@
-@keyframes fade-in {
+@keyframes fade-in-x {
   1% {
     transform: translateX(-10%);
     opacity: 75%;
@@ -6,5 +6,14 @@
   100% {
     transform: translateX(0%);
     opacity: 100%;
+  }
+}
+
+@keyframes modal-fade-in {
+  1% {
+    transform: translateY(-10%) translateX(-50%);
+  }
+  100% {
+    transform: translateY(0%) translateX(-50%);
   }
 }
