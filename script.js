@@ -207,20 +207,20 @@ const displayComments = () => {
   });
 
   deleteButtons.forEach((button) => {
+    let commentIndex = 0;
     button.addEventListener("click", (event) => {
       event.preventDefault();
       comments.forEach((comment) => {
         if (event.target.dataset.id == comment.id) {
-          let commentIndex = comments.indexOf(comment);
-          comments = comments.splice(commentIndex, 1);
+          commentIndex = comments.indexOf(comment);
+          comments.splice(commentIndex, 1);
           displayComments();
         }
         comment.replies.forEach((reply) => {
           if (event.target.dataset.id == reply.id) {
-            console.log(reply.id);
-            let commentIndex = comment.replies.indexOf(reply);
-            console.log(commentIndex);
-            comment.replies = comment.replies.splice(commentIndex, 1);
+            commentIndex = comment.replies.indexOf(reply);
+            comment.replies.splice(commentIndex, 1);
+            console.log(comments.replies);
             displayComments();
           }
         });
@@ -240,15 +240,12 @@ const displayComments = () => {
   });
 
   // adding comment logic
-  addCommentButton.addEventListener("click", async (e) => {
+  addCommentButton.addEventListener("click", (e) => {
     e.preventDefault();
     if (addCommentText.value === "") {
       //show error when input is empty
       invalidInput.innerText = "You can't post empty comment!";
     } else {
-      // const data = await fetchComments();
-      // const { currentUser } = data;
-      // console.log(currentUser);
       const newComment = {
         id: Math.random(),
         content: addCommentText.value,
@@ -266,5 +263,4 @@ const displayComments = () => {
     }
   });
 };
-
 displayComments();
