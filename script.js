@@ -12,10 +12,6 @@ const modal = document.querySelector(".modal");
 const modalCancel = document.querySelector(".modal__cancel");
 const modalDelete = document.querySelector(".modal__delete");
 
-// modal.style = "display:block;";
-// overlay.style = "display:block;";
-// body.style = "overflow:hidden";
-
 let comments = [...data.comments];
 let currentUser = { ...data.currentUser };
 
@@ -159,6 +155,7 @@ const displayComments = () => {
   const editButtons = document.querySelectorAll(".edit-button");
   const deleteButtons = document.querySelectorAll(".delete-button");
 
+  //minus button logic
   minusButtons.forEach((button) =>
     button.addEventListener("click", (event) => {
       event.preventDefault();
@@ -176,6 +173,7 @@ const displayComments = () => {
     })
   );
 
+  //plus button logic
   plusButtons.forEach((button) =>
     button.addEventListener("click", (event) => {
       event.preventDefault();
@@ -193,17 +191,48 @@ const displayComments = () => {
     })
   );
 
+  //edit button logic
   editButtons.forEach((button) => {
+    let editing = false;
     button.addEventListener("click", (event) => {
       event.preventDefault();
       comments.forEach((comment) => {
-        if (event.target.dataset.id == comment.id) {
-          console.log("xd");
+        if (event.target.dataset.id == comment.id && editing === false) {
+          editing = true; // prevent from spamming edit button
+          event.target.classList.add("active");
+          const eventContent =
+            event.target.parentElement.parentElement.parentElement.children[3];
+          const textareaWidth = eventContent.offsetWidth;
+          const textareaHeight = eventContent.offsetHeight;
+
+          eventContent.innerHTML = `
+          <textarea 
+          style='width: ${textareaWidth}px;
+          min-height: 95px;' 
+          class="comments-list__edit-textarea" >${eventContent.innerText}</textarea>`;
         }
+
+        comment.replies.forEach((reply) => {
+          if (event.target.dataset.id == reply.id && editing === false) {
+            editing = true; // prevent from spamming edit button
+            event.target.classList.add("active");
+            const eventContent =
+              event.target.parentElement.parentElement.children[3];
+            const textareaWidth = eventContent.offsetWidth;
+            //const textareaHeight = eventContent.offsetHeight;
+
+            eventContent.innerHTML = `
+          <textarea 
+          style='width: ${textareaWidth}px;
+          min-height: 95px;' 
+          class="comments-list__edit-textarea" >${eventContent.innerText}</textarea>`;
+          }
+        });
       });
     });
   });
 
+  //reply button logic
   replyButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       event.preventDefault();

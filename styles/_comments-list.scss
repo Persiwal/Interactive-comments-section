@@ -43,6 +43,7 @@
   &__content {
     margin: 1.25rem 0;
     grid-area: content;
+    word-break: break-all;
   }
 
   &__score {
@@ -89,8 +90,23 @@
       margin-left: 1.25rem;
     }
 
+    .edit-button {
+      .active {
+        opacity: 50%;
+        pointer-events: none;
+      }
+    }
+
     &:hover {
       cursor: pointer;
     }
+  }
+
+  &__edit-textarea {
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+    resize: none;
   }
 }
