@@ -47,6 +47,11 @@
     background-color: $moderate-blue;
     color: $white;
     border-radius: 10px;
+    border: none;
+
+    &:hover {
+      opacity: 50%;
+    }
   }
 
   &__invalid-input {
