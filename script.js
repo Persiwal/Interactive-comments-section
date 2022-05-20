@@ -74,9 +74,10 @@ const displayComments = () => {
             <span data-id="${comment.id}">Edit</span></div>
             <div class="delete-button" data-id="${comment.id}">
             <img src="./images/icon-delete.svg" alt="delete icon" data-id="${comment.id}"/>
-            <span data-id="${comment.id}">Delete</span></div>`
+            <span data-id="${comment.id}" data-id="${comment.id}">Delete</span></div>`
           }
           </div>
+          <button class='update-button' data-id="${comment.id}">UPDATE</button>
         </li>`;
 
     //add replies
@@ -98,7 +99,9 @@ const displayComments = () => {
             }</div>
           <span class="comments-list__createdAt">${reply.createdAt}</span>
           <p class="comments-list__content">
-            ${reply.content}
+            <span class="comments-list__replyingTo">@${
+              reply.replyingTo
+            }</span> ${reply.content}
           </p>
           <div class="comments-list__score  ${
             reply.user.username === currentUser.username ? "disable" : ""
@@ -142,18 +145,20 @@ const displayComments = () => {
             </div>`
           }
           </div>
+          <button class='update-button' data-id="${reply.id}">UPDATE</button>
         </li>`;
       });
     }
   });
 
-  // add listeners to score buttons
+  // add listeners to buttons
   const minusButtons = document.querySelectorAll(".comments-list__minus");
   const scores = document.querySelectorAll(".comments-list__score-number");
   const plusButtons = document.querySelectorAll(".comments-list__plus");
   const replyButtons = document.querySelectorAll(".reply-button");
   const editButtons = document.querySelectorAll(".edit-button");
   const deleteButtons = document.querySelectorAll(".delete-button");
+  const updateButtons = document.querySelectorAll(".update-button");
 
   //minus button logic
   minusButtons.forEach((button) =>
@@ -196,18 +201,23 @@ const displayComments = () => {
     let editing = false;
     button.addEventListener("click", (event) => {
       event.preventDefault();
+
+      updateButtons.forEach((button) => {
+        if (event.target.dataset.id === button.dataset.id) {
+          button.style.display = "block";
+        }
+      });
+
       comments.forEach((comment) => {
         if (event.target.dataset.id == comment.id && editing === false) {
           editing = true; // prevent from spamming edit button
           event.target.classList.add("active");
           const eventContent =
             event.target.parentElement.parentElement.parentElement.children[3];
-          const textareaWidth = eventContent.offsetWidth;
-          const textareaHeight = eventContent.offsetHeight;
 
           eventContent.innerHTML = `
           <textarea 
-          style='width: ${textareaWidth}px;
+          style='width: 100%;
           min-height: 95px;' 
           class="comments-list__edit-textarea" >${eventContent.innerText}</textarea>`;
         }
@@ -218,12 +228,10 @@ const displayComments = () => {
             event.target.classList.add("active");
             const eventContent =
               event.target.parentElement.parentElement.children[3];
-            const textareaWidth = eventContent.offsetWidth;
-            //const textareaHeight = eventContent.offsetHeight;
 
             eventContent.innerHTML = `
           <textarea 
-          style='width: ${textareaWidth}px;
+          style='width: 100%;
           min-height: 95px;' 
           class="comments-list__edit-textarea" >${eventContent.innerText}</textarea>`;
           }
