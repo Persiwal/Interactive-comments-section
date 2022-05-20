@@ -4,7 +4,6 @@ const commentsList = document.querySelector(".comments-list");
 const addCommentAvatar = document.querySelector(".add-comment__avatar");
 const addCommentText = document.querySelector(".add-comment__text");
 const addCommentButton = document.querySelector(".add-comment__cta");
-const addCommentSection = document.querySelector(".add-comment");
 const invalidInput = document.querySelector(".add-comment__invalid-input");
 const body = document.querySelector("body");
 const overlay = document.querySelector(".overlay");
@@ -34,9 +33,9 @@ const displayComments = () => {
                 : ""
             }</div>
           <span class="comments-list__createdAt">${comment.createdAt}</span>
-          <p class="comments-list__content">
+          <div class="comments-list__content" data-id="${comment.id}">
             ${comment.content}
-          </p>
+          </div>
           <div class="comments-list__score ${
             comment.user.username === currentUser.username ? "disable" : ""
           }">
@@ -98,11 +97,11 @@ const displayComments = () => {
                 : ""
             }</div>
           <span class="comments-list__createdAt">${reply.createdAt}</span>
-          <p class="comments-list__content">
+          <div class="comments-list__content" data-id="${reply.id}">
             <span class="comments-list__replyingTo">@${
               reply.replyingTo
             }</span> ${reply.content}
-          </p>
+          </div>
           <div class="comments-list__score  ${
             reply.user.username === currentUser.username ? "disable" : ""
           }">
@@ -202,40 +201,53 @@ const displayComments = () => {
     button.addEventListener("click", (event) => {
       event.preventDefault();
 
-      updateButtons.forEach((button) => {
-        if (event.target.dataset.id === button.dataset.id) {
-          button.style.display = "block";
-        }
-      });
+      const commentContent = document.querySelector(
+        `.comments-list__content[data-id="${event.target.dataset.id}"]`
+      );
+      console.log("before update" + commentContent.innerHTML);
 
       comments.forEach((comment) => {
         if (event.target.dataset.id == comment.id && editing === false) {
           editing = true; // prevent from spamming edit button
           event.target.classList.add("active");
-          const eventContent =
-            event.target.parentElement.parentElement.parentElement.children[3];
 
-          eventContent.innerHTML = `
+          commentContent.innerHTML = `
           <textarea 
           style='width: 100%;
           min-height: 95px;' 
-          class="comments-list__edit-textarea" >${eventContent.innerText}</textarea>`;
+          class="comments-list__edit-textarea" >${commentContent.innerText}</textarea>`;
         }
 
         comment.replies.forEach((reply) => {
           if (event.target.dataset.id == reply.id && editing === false) {
             editing = true; // prevent from spamming edit button
             event.target.classList.add("active");
-            const eventContent =
-              event.target.parentElement.parentElement.children[3];
 
-            eventContent.innerHTML = `
+            commentContent.innerHTML = `
           <textarea 
           style='width: 100%;
           min-height: 95px;' 
-          class="comments-list__edit-textarea" >${eventContent.innerText}</textarea>`;
+          class="comments-list__edit-textarea" >${commentContent.innerText}</textarea>`;
           }
         });
+      });
+
+      updateButtons.forEach((button) => {
+        if (event.target.dataset.id === button.dataset.id) {
+          button.style.display = "block";
+
+          button.addEventListener("click", () => {
+            console.log(commentContent);
+            const editedContent = commentContent.children[0].value;
+
+            console.log("editedContent:" + editedContent);
+            commentContent.innerHTML = editedContent;
+            console.log("after update:" + commentContent.innerHTML);
+            button.style.display = "none";
+            editing = false;
+            event.target.classList.remove("active");
+          });
+        }
       });
     });
   });
