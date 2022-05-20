@@ -4,7 +4,8 @@
     grid-template:
       "avatar username createdAt" auto
       "content content content" auto
-      "score score reply" auto / 1fr 2fr 3fr;
+      "score score reply"
+      "update update update" auto / 1fr 2fr 3fr;
     align-items: center;
     width: 100%;
     background-color: $white;
@@ -16,7 +17,8 @@
     @include for-tablet-portrait-up {
       grid-template:
         "score avatar username createdAt reply" auto
-        "score content content content content" auto / 1fr 1fr 2fr 3fr 3fr;
+        "score content content content content"
+        "update update update update update" auto / 1fr 1fr 2fr 3fr 3fr;
     }
 
     &.replying {
@@ -43,7 +45,7 @@
   &__content {
     margin: 1.25rem 0;
     grid-area: content;
-    word-break: break-all;
+    overflow-wrap: break-word;
   }
 
   &__score {
@@ -104,9 +106,30 @@
 
   &__edit-textarea {
     width: 100%;
-    word-wrap: break-word;
-    word-break: break-all;
+    font-family: Rubik;
+    font-size: 16px;
+    overflow-wrap: break-word;
     white-space: pre-wrap;
     resize: none;
+  }
+
+  .update-button {
+    display: none;
+    grid-area: update;
+    justify-self: end;
+    width: 6.5625rem;
+    height: 3rem;
+    background-color: $moderate-blue;
+    color: $white;
+    border-radius: 10px;
+    border: none;
+
+    &:hover {
+      opacity: 50%;
+    }
+  }
+
+  &__replyingTo {
+    color: $moderate-blue;
   }
 }
