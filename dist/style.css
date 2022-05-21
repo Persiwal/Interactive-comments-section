@@ -229,7 +229,8 @@ strong {
   color: hsl(238deg, 40%, 52%);
 }
 
-.add-comment {
+.add-comment,
+.add-reply {
   display: grid;
   position: relative;
   grid-template: "text text" auto "avatar cta" auto/1fr 1fr;
@@ -241,12 +242,14 @@ strong {
   margin-bottom: 1rem;
 }
 @media (min-width: 620px) {
-  .add-comment {
+  .add-comment,
+.add-reply {
     grid-template: "avatar text cta" auto/1fr 10fr 3fr;
     align-items: start;
   }
 }
-.add-comment textarea {
+.add-comment textarea,
+.add-reply textarea {
   width: 100%;
   height: 6rem;
   border-radius: 0.5rem;
@@ -256,17 +259,21 @@ strong {
   padding: 16px 28px;
   grid-area: text;
 }
-.add-comment textarea[placeholder] {
+.add-comment textarea[placeholder],
+.add-reply textarea[placeholder] {
   color: hsl(357deg, 100%, 86%);
 }
-.add-comment__avatar {
+.add-comment__avatar,
+.add-reply__avatar {
   grid-area: avatar;
 }
-.add-comment__avatar img {
+.add-comment__avatar img,
+.add-reply__avatar img {
   width: 32px;
   height: 32px;
 }
-.add-comment__cta {
+.add-comment__cta,
+.add-reply__cta {
   grid-area: cta;
   justify-self: end;
   width: 6.5625rem;
@@ -276,10 +283,12 @@ strong {
   border-radius: 10px;
   border: none;
 }
-.add-comment__cta:hover {
+.add-comment__cta:hover,
+.add-reply__cta:hover {
   opacity: 50%;
 }
-.add-comment__invalid-input {
+.add-comment__invalid-input,
+.add-reply__invalid-input {
   position: absolute;
   top: 90px;
   left: 25%;
