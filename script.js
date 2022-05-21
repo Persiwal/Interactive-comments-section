@@ -198,6 +198,7 @@ const displayComments = () => {
   //edit button logic
   editButtons.forEach((button) => {
     let editing = false;
+    let replying = false;
     button.addEventListener("click", (event) => {
       event.preventDefault();
 
@@ -221,7 +222,7 @@ const displayComments = () => {
         comment.replies.forEach((reply) => {
           if (event.target.dataset.id == reply.id && editing === false) {
             editing = true; // prevent from spamming edit button
-            event.target.classList.add("active");
+            replying = true; // set replying to true which will be used in updated content
 
             commentContent.innerHTML = `
           <textarea 
@@ -240,9 +241,15 @@ const displayComments = () => {
             console.log(commentContent);
             const editedContent = commentContent.children[0].value;
 
-            console.log("editedContent:" + editedContent);
-            commentContent.innerHTML = editedContent;
-            console.log("after update:" + commentContent.innerHTML);
+            commentContent.innerHTML = replying
+              ? `<span class="comments-list__replyingTo">${editedContent.substring(
+                  0,
+                  editedContent.indexOf(" ")
+                )}</span> ${editedContent.substring(
+                  editedContent.indexOf(" "),
+                  editedContent.length
+                )}`
+              : editedContent;
             button.style.display = "none";
             editing = false;
             event.target.classList.remove("active");
