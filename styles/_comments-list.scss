@@ -1,5 +1,10 @@
 .comments-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
   &__comment {
+    position: relative;
     display: grid;
     grid-template:
       "avatar username createdAt" auto
@@ -18,21 +23,31 @@
       grid-template:
         "score avatar username createdAt reply" auto
         "score content content content content"
-        "update update update update update" auto / 1fr 1fr 2fr 3fr 3fr;
+        "update update update update update" auto / 1fr 1fr 2.5fr 3fr 3fr;
     }
 
     &.replying {
       margin-left: 1.125rem;
-      width: calc(100% - 1.125rem);
-      // &::before {
-      //     content: " ";
-      //     display:inline-block;
-      //     position:relative;
-      //     background-color: black;
-      //     left: -18px;
-      //     width:1px;
-      //     height:100px;
-      // }
+      width: 95%;
+
+      @include for-tablet-portrait-up {
+        width: 85%;
+      }
+
+      &::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        background-color: $light-gray;
+        left: -15px;
+        width: 3px;
+        height: 110%;
+        top: -12px;
+
+        @include for-tablet-portrait-up {
+          left: -42px;
+        }
+      }
     }
   }
 
@@ -131,5 +146,13 @@
 
   &__replyingTo {
     color: $moderate-blue;
+  }
+
+  &__user-label {
+    display: inline-block;
+    background-color: $moderate-blue;
+    color: $white;
+    padding: 1.5px 6.5px;
+    font-size: 10px;
   }
 }
