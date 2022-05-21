@@ -18,7 +18,9 @@ const displayComments = () => {
   commentsList.innerHTML = "";
 
   comments.map((comment) => {
-    commentsList.innerHTML += `<li class="comments-list__comment">
+    commentsList.innerHTML += `<li class="comments-list__comment" data-id="${
+      comment.id
+    }">
           <img
             src="${comment.user.image.png}"
             alt=""
@@ -82,7 +84,9 @@ const displayComments = () => {
     //add replies
     if (comment.replies.length > 0) {
       comment.replies.map((reply) => {
-        commentsList.innerHTML += `<li class="comments-list__comment replying">
+        commentsList.innerHTML += `<li class="comments-list__comment replying"  data-id="${
+          reply.id
+        }">
           <img
             src="${reply.user.image.png}"
             alt=""
@@ -130,10 +134,7 @@ const displayComments = () => {
           <div class="comments-list__actions">
           ${
             reply.user.username !== currentUser.username
-              ? `<div class="reply-button" data-id="${reply.id}">
-            <img src="./images/icon-reply.svg" alt="reply icon" data-id="${reply.id}/>
-            <span data-id="${reply.id}>Reply</span>
-            </div>`
+              ? ""
               : `<div class="edit-button" data-id="${reply.id}">
               <img src="./images/icon-edit.svg" alt="edit icon" data-id="${reply.id}/>
               <span data-id="${reply.id}>Edit</span>
@@ -263,9 +264,56 @@ const displayComments = () => {
   replyButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       event.preventDefault();
+
+      const commentItem = document.querySelector(
+        `.comments-list__comment[data-id='${event.target.dataset.id}']`
+      );
+
+      const replyingSection = document.createElement("div");
+      replyingSection.classList.add("add-reply");
+      replyingSection.innerHTML = `
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          placeholder="Add a reply..."
+          class="add-reply__text"
+        ></textarea>
+        <div class="add-reply__avatar">
+          <img src="${currentUser.image.png}" alt="" />
+        </div>
+        <button class="add-reply__cta">REPLY</button>
+        <span class="add-reply__invalid-input"></span>`;
+
+      commentItem.after(replyingSection);
+      const addReplyButton = document.querySelector(".add-reply__cta");
+
       comments.forEach((comment) => {
         if (event.target.dataset.id == comment.id) {
-          console.log("xd");
+          addReplyButton.addEventListener("click", () => {
+            const replyContent = replyingSection.children[0].value;
+            console.log(replyContent);
+            if (replyContent === "") {
+              //show error when input is empty
+              invalidInput.innerText = "You can't post empty comment!";
+            } else {
+              const newReply = {
+                id: Math.random(),
+                content: replyContent,
+                createdAt: "5 months ago",
+                replyingTo: comment.user.username,
+                score: 0,
+                user: {
+                  image: { png: currentUser.image.png },
+                  username: currentUser.username,
+                },
+              };
+              addCommentText.value = "";
+              comment.replies.push(newReply);
+              displayComments();
+            }
+          });
         }
       });
     });
@@ -349,4 +397,6 @@ const displayComments = () => {
     }
   });
 };
+
+//display comments on page load
 displayComments();
