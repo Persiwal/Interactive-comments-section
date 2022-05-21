@@ -132,7 +132,7 @@ strong {
 .comments-list__comment {
   position: relative;
   display: grid;
-  grid-template: "avatar username createdAt" auto "content content content" auto "score score reply" "update update update" auto/1fr 2fr 3fr;
+  grid-template: "avatar username createdAt" auto "content content content" auto "score score reply" "update update update" auto/1fr 2.5fr 3fr;
   align-items: center;
   width: 100%;
   background-color: hsl(0deg, 0%, 100%);
