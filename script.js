@@ -272,8 +272,6 @@ const displayComments = () => {
       replyingSection.classList.add("add-reply");
       replyingSection.innerHTML = `
         <textarea
-          name=""
-          id=""
           cols="30"
           rows="10"
           placeholder="Add a reply..."
