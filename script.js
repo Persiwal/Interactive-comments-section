@@ -84,9 +84,8 @@ const displayComments = () => {
     //add replies
     if (comment.replies.length > 0) {
       comment.replies.map((reply) => {
-        commentsList.innerHTML += `<li class="comments-list__comment replying"  data-id="${
-          reply.id
-        }">
+        commentsList.innerHTML += `
+        <li class="comments-list__comment replying"  data-id="${reply.id}">
           <img
             src="${reply.user.image.png}"
             alt=""
@@ -97,7 +96,7 @@ const displayComments = () => {
             ${
               reply.user.username === currentUser.username
                 ? `
-            <span>YOU</span>`
+            <div class="comments-list__user-label">you</div>`
                 : ""
             }</div>
           <span class="comments-list__createdAt">${reply.createdAt}</span>
