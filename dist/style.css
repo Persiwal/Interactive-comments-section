@@ -1,4 +1,4 @@
-@-webkit-keyframes fade-in {
+@-webkit-keyframes fade-in-x {
   1% {
     transform: translateX(-10%);
     opacity: 75%;
@@ -8,7 +8,7 @@
     opacity: 100%;
   }
 }
-@keyframes fade-in {
+@keyframes fade-in-x {
   1% {
     transform: translateX(-10%);
     opacity: 75%;
@@ -16,6 +16,22 @@
   100% {
     transform: translateX(0%);
     opacity: 100%;
+  }
+}
+@-webkit-keyframes modal-fade-in {
+  1% {
+    transform: translateY(-10%) translateX(-50%);
+  }
+  100% {
+    transform: translateY(0%) translateX(-50%);
+  }
+}
+@keyframes modal-fade-in {
+  1% {
+    transform: translateY(-10%) translateX(-50%);
+  }
+  100% {
+    transform: translateY(0%) translateX(-50%);
   }
 }
 * {
@@ -38,6 +54,7 @@ ul {
   margin: auto;
   padding: 2rem 1rem;
   max-width: 38rem;
+  z-index: 1;
 }
 
 strong {
@@ -53,21 +70,75 @@ strong {
   }
 }
 
+.overlay {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  background-color: #7a7a7c;
+  opacity: 60%;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 25vh;
+  left: 50%;
+  z-index: 3;
+  background-color: hsl(0deg, 0%, 100%);
+  width: 343px;
+  height: 224px;
+  border-radius: 8px;
+  padding: 27px 27px;
+  -webkit-animation: modal-fade-in 0.5s ease-in-out forwards;
+          animation: modal-fade-in 0.5s ease-in-out forwards;
+}
+@media (min-width: 620px) {
+  .modal {
+    width: 350px;
+    height: 220px;
+  }
+}
+.modal h2 {
+  margin: 0;
+  font-weight: 500;
+}
+.modal__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.modal button {
+  width: 138px;
+  height: 48px;
+  color: hsl(0deg, 0%, 100%);
+  font-weight: 700;
+  border-radius: 7px;
+  border: none;
+}
+.modal__cancel {
+  background-color: hsl(211deg, 10%, 45%);
+}
+.modal__delete {
+  background-color: hsl(358deg, 79%, 66%);
+}
+
 .comments-list__comment {
   display: grid;
-  grid-template: "avatar username createdAt" auto "content content content" auto "score score reply" auto/1fr 2fr 3fr;
+  grid-template: "avatar username createdAt" auto "content content content" auto "score score reply" "update update update" auto/1fr 2fr 3fr;
   align-items: center;
   width: 100%;
   background-color: hsl(0deg, 0%, 100%);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
-  -webkit-animation: fade-in 0.5s ease-in-out forwards;
-          animation: fade-in 0.5s ease-in-out forwards;
+  -webkit-animation: fade-in-x 0.5s ease-in-out forwards;
+          animation: fade-in-x 0.5s ease-in-out forwards;
 }
 @media (min-width: 620px) {
   .comments-list__comment {
-    grid-template: "score avatar username createdAt reply" auto "score content content content content" auto/1fr 1fr 2fr 3fr 3fr;
+    grid-template: "score avatar username createdAt reply" auto "score content content content content" "update update update update update" auto/1fr 1fr 2fr 3fr 3fr;
   }
 }
 .comments-list__comment.replying {
@@ -82,6 +153,7 @@ strong {
 .comments-list__content {
   margin: 1.25rem 0;
   grid-area: content;
+  overflow-wrap: break-word;
 }
 .comments-list__score {
   display: flex;
@@ -124,8 +196,37 @@ strong {
   color: #ed6368;
   margin-left: 1.25rem;
 }
+.comments-list__actions .edit-button .active {
+  opacity: 50%;
+  pointer-events: none;
+}
 .comments-list__actions:hover {
   cursor: pointer;
+}
+.comments-list__edit-textarea {
+  width: 100%;
+  font-family: Rubik;
+  font-size: 16px;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  resize: none;
+}
+.comments-list .update-button {
+  display: none;
+  grid-area: update;
+  justify-self: end;
+  width: 6.5625rem;
+  height: 3rem;
+  background-color: hsl(238deg, 40%, 52%);
+  color: hsl(0deg, 0%, 100%);
+  border-radius: 10px;
+  border: none;
+}
+.comments-list .update-button:hover {
+  opacity: 50%;
+}
+.comments-list__replyingTo {
+  color: hsl(238deg, 40%, 52%);
 }
 
 .add-comment {
@@ -173,6 +274,10 @@ strong {
   background-color: hsl(238deg, 40%, 52%);
   color: hsl(0deg, 0%, 100%);
   border-radius: 10px;
+  border: none;
+}
+.add-comment__cta:hover {
+  opacity: 50%;
 }
 .add-comment__invalid-input {
   position: absolute;
