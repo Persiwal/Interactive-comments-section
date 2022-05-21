@@ -105,6 +105,11 @@
     .delete-button {
       color: #ed6368;
       margin-left: 1.25rem;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 50%;
+      }
     }
 
     .edit-button {
@@ -112,10 +117,18 @@
         opacity: 50%;
         pointer-events: none;
       }
+
+      &:hover {
+        cursor: pointer;
+        opacity: 50%;
+      }
     }
 
-    &:hover {
-      cursor: pointer;
+    .reply-button {
+      &:hover {
+        cursor: pointer;
+        opacity: 50%;
+      }
     }
   }
 
