@@ -53,7 +53,7 @@ ul {
 .container {
   margin: auto;
   padding: 2rem 1rem;
-  max-width: 38rem;
+  max-width: 43.75rem;
   z-index: 1;
 }
 
@@ -124,7 +124,13 @@ strong {
   background-color: hsl(358deg, 79%, 66%);
 }
 
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 .comments-list__comment {
+  position: relative;
   display: grid;
   grid-template: "avatar username createdAt" auto "content content content" auto "score score reply" "update update update" auto/1fr 2fr 3fr;
   align-items: center;
@@ -138,12 +144,32 @@ strong {
 }
 @media (min-width: 620px) {
   .comments-list__comment {
-    grid-template: "score avatar username createdAt reply" auto "score content content content content" "update update update update update" auto/1fr 1fr 2fr 3fr 3fr;
+    grid-template: "score avatar username createdAt reply" auto "score content content content content" "update update update update update" auto/1fr 1fr 2.5fr 3fr 3fr;
   }
 }
 .comments-list__comment.replying {
   margin-left: 1.125rem;
-  width: calc(100% - 1.125rem);
+  width: 95%;
+}
+@media (min-width: 620px) {
+  .comments-list__comment.replying {
+    width: 85%;
+  }
+}
+.comments-list__comment.replying::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  background-color: hsl(223deg, 19%, 93%);
+  left: -15px;
+  width: 3px;
+  height: 110%;
+  top: -12px;
+}
+@media (min-width: 620px) {
+  .comments-list__comment.replying::before {
+    left: -42px;
+  }
 }
 .comments-list__avatar {
   width: 2rem;
@@ -227,6 +253,13 @@ strong {
 }
 .comments-list__replyingTo {
   color: hsl(238deg, 40%, 52%);
+}
+.comments-list__user-label {
+  display: inline-block;
+  background-color: hsl(238deg, 40%, 52%);
+  color: hsl(0deg, 0%, 100%);
+  padding: 1.5px 6.5px;
+  font-size: 10px;
 }
 
 .add-comment,
