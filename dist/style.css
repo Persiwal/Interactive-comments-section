@@ -222,12 +222,21 @@ strong {
   color: #ed6368;
   margin-left: 1.25rem;
 }
+.comments-list__actions .delete-button:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
 .comments-list__actions .edit-button .active {
   opacity: 50%;
   pointer-events: none;
 }
-.comments-list__actions:hover {
+.comments-list__actions .edit-button:hover {
   cursor: pointer;
+  opacity: 50%;
+}
+.comments-list__actions .reply-button:hover {
+  cursor: pointer;
+  opacity: 50%;
 }
 .comments-list__edit-textarea {
   width: 100%;
