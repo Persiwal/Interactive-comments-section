@@ -14,140 +14,188 @@ const modalDelete = document.querySelector(".modal__delete");
 let comments = [...data.comments];
 let currentUser = { ...data.currentUser };
 
+const createComment = (comment, isReply) => {
+  //create comment list item
+  const commentElement = document.createElement("li");
+  commentElement.classList.add("comments-list__comment");
+  if (isReply) {
+    commentElement.classList.add("replying");
+  }
+  commentElement.dataset.id = comment.id;
+
+  //create user avatar
+  const userImg = document.createElement("img");
+  userImg.classList.add("comments-list__avatar");
+  userImg.src = comment.user.image.png;
+  userImg.alt = "";
+
+  //create username element
+  const username = document.createElement("div");
+  username.classList.add("comments-list__username");
+
+  //create username
+  const usernameSpan = document.createElement("span");
+  usernameSpan.innerText = comment.user.username;
+
+  //create "YOU" element when user comment is written by current user
+  const isThatYou = document.createElement("span");
+  isThatYou.innerText =
+    comment.user.username === currentUser.username ? "YOU" : "";
+
+  //append username element childs
+  username.appendChild(usernameSpan);
+  username.appendChild(isThatYou);
+
+  //create add date element
+  const createdAt = document.createElement("span");
+  createdAt.classList.add("comments-list__createdAt");
+  createdAt.innerText = comment.createdAt;
+
+  //create content element
+  const content = document.createElement("div");
+  content.classList.add("comments-list__content");
+  content.dataset.id = comment.id;
+  content.innerText = !isReply
+    ? comment.content
+    : comment.replyingTo + "" + comment.content;
+
+  //create score element
+  const score = document.createElement("div");
+  score.classList.add("comments-list__score");
+  if (comment.user.username === currentUser.username) {
+    score.classList.add("disable");
+  }
+
+  //create minus score wrapper element
+  const minusScore = document.createElement("div");
+  minusScore.classList.add("comments-list__minus");
+
+  //create minus img element
+  const minusScoreImg = document.createElement("img");
+  minusScoreImg.dataset.id = comment.id;
+  minusScoreImg.alt = "";
+  minusScoreImg.src = "./images/icon-minus.svg";
+
+  //add minus img to wrapper element
+  minusScore.appendChild(minusScoreImg);
+
+  //create plus score wrapper element
+  const plusScore = document.createElement("div");
+  plusScore.classList.add("comments-list__plus");
+
+  //create plus img element
+  const plusScoreImg = document.createElement("img");
+  plusScoreImg.dataset.id = comment.id;
+  plusScoreImg.alt = "";
+  plusScoreImg.src = "./images/icon-plus.svg";
+
+  //add plus img to wrapper element
+  plusScore.appendChild(plusScoreImg);
+
+  //create score number element
+  const scoreNumber = document.createElement("p");
+  scoreNumber.classList.add("comments-list__score-number");
+  scoreNumber.dataset.id = comment.id;
+  scoreNumber.innerText = comment.score;
+
+  //apend childs to score box
+  score.appendChild(minusScore);
+  score.appendChild(scoreNumber);
+  score.appendChild(plusScore);
+
+  //create actions element (reply, edit, delete)
+  const actions = document.createElement("div");
+  actions.classList.add("comments-list__actions");
+
+  //create reply button
+  const replyButton = document.createElement("div");
+  replyButton.classList.add("reply-button");
+  replyButton.dataset.id = comment.id;
+
+  //create reply img
+  const replyImg = document.createElement("img");
+  replyImg.src = "./images/icon-reply.svg";
+  replyImg.alt = "reply icon";
+  replyImg.dataset.id = comment.id;
+
+  const replySpan = document.createElement("span");
+  replySpan.dataset.id = comment.id;
+  replySpan.innerText = "Reply";
+
+  replyButton.appendChild(replyImg);
+  replyButton.appendChild(replySpan);
+
+  //create edit button
+  const editButton = document.createElement("div");
+  editButton.classList.add("edit-button");
+  editButton.dataset.id = comment.id;
+
+  //create edit img
+  const editImg = document.createElement("img");
+  editImg.src = "/images/icon-edit.svg";
+  editImg.alt = "edit icon";
+  editImg.dataset.id = comment.id;
+
+  const editSpan = document.createElement("span");
+  editSpan.dataset.id = comment.id;
+  editSpan.innerText = "Edit";
+
+  editButton.appendChild(editImg);
+  editButton.appendChild(editSpan);
+
+  //create delete button
+  const deleteButton = document.createElement("div");
+  deleteButton.classList.add("delete-button");
+  deleteButton.dataset.id = comment.id;
+
+  //create delete img
+  const deleteImg = document.createElement("img");
+  deleteImg.src = "./images/icon-delete.svg";
+  deleteImg.alt = "delete icon";
+  deleteImg.dataset.id = comment.id;
+
+  const deleteSpan = document.createElement("span");
+  deleteSpan.dataset.id = comment.id;
+  deleteSpan.innerText = "Delete";
+
+  deleteButton.appendChild(deleteImg);
+  deleteButton.appendChild(deleteSpan);
+
+  //check if comment is written by currentUser
+  if (comment.user.username === currentUser.username) {
+    //append edit and delete buttons for current user
+    actions.appendChild(editButton);
+    actions.appendChild(deleteButton);
+  } else {
+    if (!isReply) actions.appendChild(replyButton);
+  }
+  const updateButton = document.createElement("button");
+  updateButton.classList.add("update-button");
+  updateButton.dataset.id = comment.id;
+  updateButton.innerText = "UPDATE";
+
+  //append elements to comment
+  commentElement.appendChild(userImg);
+  commentElement.appendChild(username);
+  commentElement.appendChild(createdAt);
+  commentElement.appendChild(content);
+  commentElement.appendChild(score);
+  commentElement.appendChild(actions);
+  commentElement.appendChild(updateButton);
+
+  //append comment to comments list
+  commentsList.appendChild(commentElement);
+};
+
 const displayComments = () => {
   commentsList.innerHTML = "";
 
   comments.map((comment) => {
-    commentsList.innerHTML += `<li class="comments-list__comment" data-id="${
-      comment.id
-    }">
-          <img
-            src="${comment.user.image.png}"
-            alt=""
-            class="comments-list__avatar"
-          />
-          <div class="comments-list__username">
-          <span>${comment.user.username}</span>
-            ${
-              comment.user.username === currentUser.username
-                ? `
-            <span>YOU</span>`
-                : ""
-            }</div>
-          <span class="comments-list__createdAt">${comment.createdAt}</span>
-          <div class="comments-list__content" data-id="${comment.id}">
-            ${comment.content}
-          </div>
-          <div class="comments-list__score ${
-            comment.user.username === currentUser.username ? "disable" : ""
-          }">
-            <div class="comments-list__minus ${
-              comment.user.username === currentUser.username ? "disable" : ""
-            }">
-             <img
-              src="./images/icon-minus.svg"
-              alt=""
-              data-id="${comment.id}"
-            />
-            </div>
-            <p class="comments-list__score-number" data-id="${comment.id}">
-            ${comment.score}
-            </p>
-            <div class="comments-list__plus ${
-              comment.user.username === currentUser.username ? "disable" : ""
-            }">
-            <img
-              src="./images/icon-plus.svg"
-              alt=""
-              data-id="${comment.id}"
-            />
-            </div>
-          </div>
-          <div class="comments-list__actions">
-          ${
-            comment.user.username !== currentUser.username
-              ? `<div class="reply-button" data-id="${comment.id}">
-            <img src="./images/icon-reply.svg" alt="reply icon" data-id="${comment.id}"/>
-            <span data-id="${comment.id}">Reply</span>
-            </div>`
-              : `<div class="edit-button" data-id="${comment.id}" data-id="${comment.id}">
-            <img src="./images/icon-edit.svg" alt="edit icon" data-id="${comment.id}"/>
-            <span data-id="${comment.id}">Edit</span></div>
-            <div class="delete-button" data-id="${comment.id}">
-            <img src="./images/icon-delete.svg" alt="delete icon" data-id="${comment.id}"/>
-            <span data-id="${comment.id}" data-id="${comment.id}">Delete</span></div>`
-          }
-          </div>
-          <button class='update-button' data-id="${comment.id}">UPDATE</button>
-        </li>`;
+    createComment(comment, false);
 
-    //add replies
-    if (comment.replies.length > 0) {
-      comment.replies.map((reply) => {
-        commentsList.innerHTML += `
-        <li class="comments-list__comment replying"  data-id="${reply.id}">
-          <img
-            src="${reply.user.image.png}"
-            alt=""
-            class="comments-list__avatar"
-          />
-          <div class="comments-list__username">
-          <span>${reply.user.username}</span>
-            ${
-              reply.user.username === currentUser.username
-                ? `
-            <div class="comments-list__user-label">you</div>`
-                : ""
-            }</div>
-          <span class="comments-list__createdAt">${reply.createdAt}</span>
-          <div class="comments-list__content" data-id="${reply.id}">
-            <span class="comments-list__replyingTo">@${
-              reply.replyingTo
-            }</span> ${reply.content}
-          </div>
-          <div class="comments-list__score  ${
-            reply.user.username === currentUser.username ? "disable" : ""
-          }">
-            <div class="comments-list__minus ${
-              reply.user.username === currentUser.username ? "disable" : ""
-            }">
-             <img
-              src="./images/icon-minus.svg"
-              alt=""
-              data-id="${reply.id}"
-            />
-            </div>
-            <p class="comments-list__score-number" data-id="${reply.id}">${
-          reply.score
-        }</p>
-            <div class="comments-list__plus ${
-              reply.user.username === currentUser.username ? "disable" : ""
-            }">
-            <img
-              src="./images/icon-plus.svg"
-              alt=""
-              data-id="${reply.id}"
-            />
-            </div>
-            </div>
-          <div class="comments-list__actions">
-          ${
-            reply.user.username !== currentUser.username
-              ? ""
-              : `<div class="edit-button" data-id="${reply.id}">
-              <img src="./images/icon-edit.svg" alt="edit icon" data-id="${reply.id}/>
-              <span data-id="${reply.id}>Edit</span>
-              </div>
-            <div class="delete-button" data-id="${reply.id}" >
-              <img src="./images/icon-delete.svg" alt="delete icon" data-id="${reply.id}/>
-              <span data-id="${reply.id}>Delete</span>
-            </div>`
-          }
-          </div>
-          <button class='update-button' data-id="${reply.id}">UPDATE</button>
-        </li>`;
-      });
-    }
+    comment.replies.map((reply) => {
+      createComment(reply, true);
+    });
   });
 
   // add listeners to buttons
