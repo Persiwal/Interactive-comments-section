@@ -1,4 +1,5 @@
 import data from "./data.json" assert { type: "json" };
+import { TransformDate, CalculateTimeAgo } from "./Date.js";
 
 const commentsList = document.querySelector(".comments-list");
 const addCommentAvatar = document.querySelector(".add-comment__avatar");
@@ -49,7 +50,7 @@ const createComment = (comment, isReply) => {
   //create add date element
   const createdAt = document.createElement("span");
   createdAt.classList.add("comments-list__createdAt");
-  createdAt.innerText = comment.createdAt;
+  createdAt.innerText = CalculateTimeAgo(comment.createdAt);
 
   //create content element
   const content = document.createElement("div");
@@ -57,7 +58,7 @@ const createComment = (comment, isReply) => {
   content.dataset.id = comment.id;
   content.innerText = !isReply
     ? comment.content
-    : comment.replyingTo + "" + comment.content;
+    : "@" + comment.replyingTo + " " + comment.content;
 
   //create score element
   const score = document.createElement("div");
@@ -216,7 +217,6 @@ const displayComments = () => {
           event.target.dataset.id == score.dataset.id &&
           !score.classList.contains("disable")
         ) {
-          console.log(!score.classList.contains("disable"));
           score.innerHTML--;
         } else {
           return;
@@ -229,7 +229,6 @@ const displayComments = () => {
   plusButtons.forEach((button) =>
     button.addEventListener("click", (event) => {
       event.preventDefault();
-      console.log(event.target.dataset.id);
       scores.forEach((score) => {
         if (
           event.target.dataset.id == score.dataset.id &&
@@ -253,7 +252,6 @@ const displayComments = () => {
       const commentContent = document.querySelector(
         `.comments-list__content[data-id="${event.target.dataset.id}"]`
       );
-      console.log("before update" + commentContent.innerHTML);
 
       comments.forEach((comment) => {
         if (event.target.dataset.id == comment.id && editing === false) {
@@ -286,7 +284,6 @@ const displayComments = () => {
           button.style.display = "block";
 
           button.addEventListener("click", () => {
-            console.log(commentContent);
             const editedContent = commentContent.children[0].value;
 
             commentContent.innerHTML = replying
@@ -338,7 +335,6 @@ const displayComments = () => {
         if (event.target.dataset.id == comment.id) {
           addReplyButton.addEventListener("click", () => {
             const replyContent = replyingSection.children[0].value;
-            console.log(replyContent);
             if (replyContent === "") {
               //show error when input is empty
               invalidInput.innerText = "You can't post empty comment!";
@@ -346,7 +342,7 @@ const displayComments = () => {
               const newReply = {
                 id: Math.random(),
                 content: replyContent,
-                createdAt: "5 months ago",
+                createdAt: TransformDate(new Date()),
                 replyingTo: comment.user.username,
                 score: 0,
                 user: {
@@ -394,7 +390,6 @@ const displayComments = () => {
             if (event.target.dataset.id == reply.id) {
               commentIndex = comment.replies.indexOf(reply);
               comment.replies.splice(commentIndex, 1);
-              console.log(comments.replies);
               displayComments();
             }
           });
@@ -428,7 +423,7 @@ const displayComments = () => {
       const newComment = {
         id: Math.random(),
         content: addCommentText.value,
-        createdAt: "5 months ago",
+        createdAt: TransformDate(new Date()),
         replies: [],
         score: 0,
         user: {
