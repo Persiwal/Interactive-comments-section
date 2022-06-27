@@ -330,6 +330,10 @@ const displayComments = () => {
 
       commentItem.after(replyingSection);
       const addReplyButton = document.querySelector(".add-reply__cta");
+      const addReplyInvalidInput = document.querySelector(
+        ".add-reply__invalid-input"
+      );
+      console.log(addReplyInvalidInput);
 
       comments.forEach((comment) => {
         if (event.target.dataset.id == comment.id) {
@@ -337,7 +341,7 @@ const displayComments = () => {
             const replyContent = replyingSection.children[0].value;
             if (replyContent === "") {
               //show error when input is empty
-              invalidInput.innerText = "You can't post empty comment!";
+              addReplyInvalidInput.innerText = "You can't post empty comment!";
             } else {
               const newReply = {
                 id: Math.random(),

@@ -5,6 +5,7 @@ export const TransformDate = (date) => {
   let hours = date.getHours();
   let minutes = date.getMinutes();
   let seconds = date.getSeconds();
+
   const formatedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   //   if (month.length < 2) {
   //     month = "0" + month;
