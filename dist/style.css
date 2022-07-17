@@ -176,6 +176,11 @@ strong {
   height: 2rem;
   grid-area: avatar;
 }
+.comments-list__username {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .comments-list__content {
   margin: 1.25rem 0;
   grid-area: content;
@@ -263,12 +268,15 @@ strong {
 .comments-list__replyingTo {
   color: hsl(238deg, 40%, 52%);
 }
-.comments-list__user-label {
+.comments-list__userLabel {
   display: inline-block;
   background-color: hsl(238deg, 40%, 52%);
   color: hsl(0deg, 0%, 100%);
   padding: 1.5px 6.5px;
   font-size: 10px;
+}
+.comments-list__createdAt {
+  text-align: center;
 }
 
 .add-comment,

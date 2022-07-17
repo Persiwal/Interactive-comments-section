@@ -57,6 +57,12 @@
     grid-area: avatar;
   }
 
+  &__username {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   &__content {
     margin: 1.25rem 0;
     grid-area: content;
@@ -161,11 +167,15 @@
     color: $moderate-blue;
   }
 
-  &__user-label {
+  &__userLabel {
     display: inline-block;
     background-color: $moderate-blue;
     color: $white;
     padding: 1.5px 6.5px;
     font-size: 10px;
+  }
+
+  &__createdAt {
+    text-align: center;
   }
 }
