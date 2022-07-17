@@ -1,4 +1,4 @@
-export const TransformDate = (date) => {
+export const FormatDate = (date) => {
   let month = date.getMonth().toString();
   let day = date.getDate().toString();
   let year = date.getFullYear();
@@ -18,32 +18,32 @@ export const CalculateTimeAgo = (oldDate) => {
     new Date() -
     new Date(oldYear, oldMonth, oldDay, oldHours, oldMinutes, oldSeconds);
   const timeDiff = timeDiffInMiliseconds / 1000; // time diff in seconds
-  let outputString = "";
+  let formatedDate = "";
 
   if (timeDiff < 5) {
-    outputString = "now";
+    formatedDate = "now";
   } else if (timeDiff < 60) {
-    outputString = timeDiff.toFixed() + " seconds ago";
+    formatedDate = timeDiff.toFixed() + " seconds ago";
   } else if (timeDiff / 60 < 60) {
-    outputString = (timeDiff / 60).toFixed() + " minutes ago";
+    formatedDate = (timeDiff / 60).toFixed() + " minutes ago";
   } else if (timeDiff / (60 * 60) < 24) {
-    outputString = (timeDiff / (60 * 60)).toFixed() + " hours ago";
+    formatedDate = (timeDiff / (60 * 60)).toFixed() + " hours ago";
   } else if (timeDiff / (60 * 60 * 24) < 7) {
-    outputString = (timeDiff / (60 * 60 * 24)).toFixed() + " days ago";
+    formatedDate = (timeDiff / (60 * 60 * 24)).toFixed() + " days ago";
   } else if (timeDiff / (60 * 60 * 24) < 30) {
-    outputString = (timeDiff / (60 * 60 * 24) / 7).toFixed() + " weeks ago";
+    formatedDate = (timeDiff / (60 * 60 * 24) / 7).toFixed() + " weeks ago";
   } else if (
     timeDiff / (60 * 60 * 24 * 31) > 1 &&
     timeDiff / (60 * 60 * 24 * 31) < 1.5
   ) {
-    outputString = "about month ago";
+    formatedDate = "about month ago";
   } else if (timeDiff / (60 * 60 * 24 * 31) < 12) {
-    outputString =
+    formatedDate =
       "about " + (timeDiff / (60 * 60 * 24 * 31)).toFixed() + " months ago";
   } else {
-    outputString =
+    formatedDate =
       "about " + (timeDiff / (60 * 60 * 24 * 31 * 12)).toFixed() + " years ago";
   }
 
-  return outputString;
+  return formatedDate;
 };

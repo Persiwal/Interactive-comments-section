@@ -1,5 +1,5 @@
 import data from "./data.json" assert { type: "json" };
-import { TransformDate, CalculateTimeAgo } from "./Date.js";
+import { FormatDate, CalculateTimeAgo } from "./Date.js";
 
 const commentsList = document.querySelector(".comments-list");
 const addCommentAvatar = document.querySelector(".add-comment__avatar");
@@ -40,8 +40,10 @@ const createComment = (comment, isReply) => {
 
   //create "YOU" element when user comment is written by current user
   const isThatYou = document.createElement("span");
-  isThatYou.innerText =
-    comment.user.username === currentUser.username ? "YOU" : "";
+  if (comment.user.username === currentUser.username) {
+    isThatYou.classList.add("comments-list__userLabel");
+    isThatYou.innerText = "YOU";
+  }
 
   //append username element childs
   username.appendChild(usernameSpan);
@@ -346,7 +348,7 @@ const displayComments = () => {
               const newReply = {
                 id: Math.random(),
                 content: replyContent,
-                createdAt: TransformDate(new Date()),
+                createdAt: FormatDate(new Date()),
                 replyingTo: comment.user.username,
                 score: 0,
                 user: {
@@ -427,7 +429,7 @@ const displayComments = () => {
       const newComment = {
         id: Math.random(),
         content: addCommentText.value,
-        createdAt: TransformDate(new Date()),
+        createdAt: FormatDate(new Date()),
         replies: [],
         score: 0,
         user: {
